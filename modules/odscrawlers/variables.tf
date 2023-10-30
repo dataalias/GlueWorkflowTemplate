@@ -1,0 +1,58 @@
+variable "env" {
+  description = "The environment being deployed."
+  type        = string
+  validation {
+    condition     = var.env == "dev" || var.env == "stg" || var.env == "prod"
+    error_message = "The env value must be dev or prod."
+  }
+}
+
+
+variable "crawlerdatabase" {
+  description = "The name of the Database."
+  type        = string
+  default     = "ODS"
+}
+
+variable "name" {
+  description = "The name of the Database."
+  type        = string
+  default     = ""
+}
+
+variable "projectname" {
+  description = "The name of the database project."
+  type        = string
+  default     = ""
+}
+
+variable "path" {
+  description = "The name of the Database."
+  type        = string
+  default     = ""
+}
+
+variable "gluejob_arn" {
+  description = "The name of the Database."
+  type        = string
+  default     = ""
+}
+
+variable "connection" {
+  description = "The name of the Database."
+  type        = string
+  default     = ""
+}
+
+variable "schema" {
+  description = "The name of the Database."
+  type        = string
+  default     = ""
+}
+
+variable "tags" {
+  description = "The name of the tags."
+  type        = map(string)
+  default     = {}
+}
+
