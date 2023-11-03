@@ -8,11 +8,11 @@ Envrionment: dev
 
 env                     = "dev"
 
-artifact_bucket         = "dev-ascent-de-assets"
-branch                  = "feat-DRBankAccountingExtracts"
+artifact_bucket         = "dev-de-assets"
+branch                  = "feat-BankAccountingExtracts"
 parameter_store         = "EnvironmentStage"
-source_bucket_name      = "dev-ascent-datalake"
-repository_name         = "deLaunchDataFeeds"
+source_bucket_name      = "dev-datalake"
+repository_name         = "dehDataFeeds"
 deploy_project_name     = "deLaunchDataFeeds"
 unit_test_project_name  = "deLaunchDataFeedsUnitTest"
 #projectname             = "DRB"
@@ -31,8 +31,8 @@ database_secret_ODS     = "dev/devadw/ODS/Glue_svc"
 crawlerdatabase         = "S3"
 connection              = "ODS"
 schema                  = "loan"
-#glueworkflow_snapshot      = "devadw_LaunchLoanServicing_AscentDailySnapshot_LoadtoODS"
-gluejob_arn                 = "arn:aws:iam::760872459209:role/AWSGlueServiceRoledevAdw"
+#glueworkflow_snapshot      = "devadw_LaunchLoanServicing_DailySnapshot_LoadtoODS"
+gluejob_arn                 = "arn:aws:iam::MyAccount:role/AWSGlueServiceRoledevAdw"
 
 glueworkflows = [
   {
@@ -129,14 +129,14 @@ gluejobs = [
 
 sparkjobs = [
   {
-    name        = "AscentDailySnapshot_pySparkLoadtoODSStage"
+    name        = "DailySnapshot_pySparkLoadtoODSStage"
     description = "Snapshot Preprocessor "
-    jobname     = "LaunchLoanServicing_AscentDailySnapshot_Preprocessor.py"
+    jobname     = "LaunchLoanServicing_DailySnapshot_Preprocessor.py"
   },
   {
-    name        = "AscentDailyTransactions_pySparkLoadtoODSStage"
+    name        = "DailyTransactions_pySparkLoadtoODSStage"
     description = "Load transaction data to Stage"
-    jobname     = "LaunchLoanServicing_AscentDailyTransactions_pySparkLoadtoODSStage.py"
+    jobname     = "LaunchLoanServicing_DailyTransactions_pySparkLoadtoODSStage.py"
   },
   {
     name        = "LaunchLoanBatchDaily_pySparkLoadtoODSStage"
@@ -148,15 +148,15 @@ sparkjobs = [
 gluejobsold = [
   {
     
-    name        = "AscentDailySnapshot_Preprocessor"
+    name        = "DailySnapshot_Preprocessor"
     description = "Snapshot Preprocessor "
-    jobname     = "LaunchLoanServicing_AscentDailySnapshot_Preprocessor.py"
+    jobname     = "LaunchLoanServicing_DailySnapshot_Preprocessor.py"
   },
   {
     # 1 is me testing the transaction preprocesor
-    name        = "AscentDailyTransactions_Preprocessor"
+    name        = "DailyTransactions_Preprocessor"
     description = "Transaction Preprocessor "
-    jobname     = "LaunchLoanServicing_AscentDailyTransactions_Preprocessor.py"
+    jobname     = "LaunchLoanServicing_DailyTransactions_Preprocessor.py"
   },
   {
     name        = "LaunchLoanBatchDaily_Preprocessor"
@@ -190,40 +190,40 @@ gluejobsgeneral = [
 
 s3crawlers = [
   {
-    name      = "AscentDailySnapshot"
-    path      = "s3://dev-ascent-datalake/Conformed/Launch Loan Servicing/Ascent Daily Snapshot"
+    name      = "DailySnapshot"
+    path      = "s3://dev--datalake/Conformed/Launch Loan Servicing/ Daily Snapshot"
   },
   {
-    name      = "AscentDailyTransactions"
-    path      = "s3://dev-ascent-datalake/Conformed/Launch Loan Servicing/Ascent Daily Transactions"
+    name      = "DailyTransactions"
+    path      = "s3://dev--datalake/Conformed/Launch Loan Servicing/ Daily Transactions"
   },
   {
     name      = "LaunchLoanBatchDaily"
-    path      = "s3://dev-ascent-datalake/Conformed/Launch Loan Servicing/Launch Loan Batch Daily"
+    path      = "s3://dev--datalake/Conformed/Launch Loan Servicing/Launch Loan Batch Daily"
   }
 ]
 
 odscrawlers = [
   {
-    name      = "AscentLoanDailySnapshot"
-    path      = "ascentloandailysnapshot"
+    name      = "LoanDailySnapshot"
+    path      = "loandailysnapshot"
   },
   {
-    name      = "AscentLoanDailyTransactions"
-    path      = "ascentloandailytransactions"
+    name      = "LoanDailyTransactions"
+    path      = "loandailytransactions"
   }
 ]
 
 glueworkflowsold = [
    {
 	   env = "dev"
-	   name        		 = "AscentDailySnapshot_LoadtoODS"
+	   name        		 = "DailySnapshot_LoadtoODS"
 	   description 		 = "This workflow is used to load the Launch data data to ODS"
-	   action1				 = "LaunchLoanServicing_AscentDailySnapshot_Preprocessor"
-	   crawlername 		 = "AscentDailySnapshot"
-	   action2				 = "LaunchLoanServicing_AscentDailyTransactions_pySparkLoadtoODSStage"
+	   action1				 = "LaunchLoanServicing_DailySnapshot_Preprocessor"
+	   crawlername 		 = "DailySnapshot"
+	   action2				 = "LaunchLoanServicing_DailyTransactions_pySparkLoadtoODSStage"
 	   job_parameters_merge = {
-		"--PROC_NAME"             = "ods.stagells.usp_LoadAscentDailySnapshot"
+		"--PROC_NAME"             = "ods.stagells.usp_LoadDailySnapshot"
 
 	  }
 	  job_parameters_is    = {
@@ -280,11 +280,11 @@ glueworkflowsold = [
    {
 	   #Launch Transaction Data to ODS.
      env = "dev"
-	   name        			 = "AscentDailyTransactions_LoadtoODS"
+	   name        			 = "DailyTransactions_LoadtoODS"
 	   description 			 = "This workflow is used to load the Launch data data to ODS"
-	   action1				   = "LaunchLoanServicing_AscentDailyTransactions_Preprocessor"
-	   crawlername 			 = "AscentDailyTransactions"
-	   action2				   = "LaunchLoanServicing_AscentDailyTransactions_pySparkLoadtoODSStage"
+	   action1				   = "LaunchLoanServicing_DailyTransactions_Preprocessor"
+	   crawlername 			 = "DailyTransactions"
+	   action2				   = "LaunchLoanServicing_DailyTransactions_pySparkLoadtoODSStage"
 	  
 	  job_parameters_il    = {
 		"--DH:StatusCode"         = "IL"
