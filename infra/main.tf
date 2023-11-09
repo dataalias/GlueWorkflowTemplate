@@ -31,7 +31,7 @@ terraform {
 }
 
 resource "aws_iam_role" "glue_role" {
-  name = "${var.env}${var.projectname}_GlueRole"
+  name = "${var.env}${var.project_name}_GlueRole"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -49,7 +49,7 @@ resource "aws_iam_role" "glue_role" {
 
   # Allow the role to access the Cloudwatch.
   inline_policy {
-    name = "${var.env}${var.projectname}_CloudWatchPolicy"
+    name = "${var.env}${var.project_name}_CloudWatchPolicy"
     policy = jsonencode({
       Version = "2012-10-17"
       Statement = [
@@ -90,7 +90,7 @@ module "code_pipeline" {
   ]
 }
 
-
+/*
 module "s3crawlers" {
   source = "./modules/s3crawlers"
   for_each    = {
@@ -103,8 +103,8 @@ module "s3crawlers" {
   gluejob_arn      = var.gluejob_arn
   env              = var.env
   source_bucket_name = var.source_bucket_name
-  repo_name        = var.repo_name
-  projectnameold   = var.projectnameold
+  repo_name        = var.repository_name
+  projectnameold   = var.project_name
 
 
 }
@@ -124,7 +124,7 @@ module "odscrawlers" {
   schema           = var.schema
 
 }
-
+*/
 
 module "gluejobs" {
   source = "./modules/gluejobs"
